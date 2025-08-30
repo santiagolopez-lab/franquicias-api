@@ -1,0 +1,46 @@
+# =================================================================
+# PRODUCTION ENVIRONMENT CONFIGURATION
+# =================================================================
+
+spring:
+  r2dbc:
+    url: r2dbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:franquicias_db}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    pool:
+      initial-size: 5
+      max-size: 20
+      max-idle-time: 30m
+      validation-query: SELECT 1
+  
+  flyway:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:franquicias_db}
+    user: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    baseline-on-migrate: true
+    validate-on-migrate: true
+
+# Production logging
+logging:
+  level:
+    root: INFO
+    com.nequi.franquicias: INFO
+    org.springframework.web: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Production-specific settings
+server:
+  error:
+    include-stacktrace: never
+    include-message: on-param
+
+# Production monitoring and health
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized

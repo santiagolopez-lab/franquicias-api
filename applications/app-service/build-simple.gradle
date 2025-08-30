@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+application {
+    mainClass = 'com.nequi.franquicias.FranquiciasApiApplication'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':model')
+    implementation project(':usecase')
+    implementation project(':jpa-repository')
+    implementation project(':reactive-web')
+    
+    // Spring Boot without plugin
+    implementation 'org.springframework.boot:spring-boot:3.2.0'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:3.2.0'
+    implementation 'org.springframework.boot:spring-boot-starter:3.2.0'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:3.2.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc:3.2.0'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.2.0'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:3.2.0'
+    
+    // R2DBC MySQL
+    implementation 'dev.miku:r2dbc-mysql:0.8.2.RELEASE'
+    implementation 'io.r2dbc:r2dbc-pool:1.0.1.RELEASE'
+    
+    // Flyway for schema management
+    implementation 'org.flywaydb:flyway-core:9.22.3'
+    implementation 'org.flywaydb:flyway-mysql:9.22.3'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    
+    // OpenAPI Documentation
+    implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.2.0'
+    
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.2.0'
+    testImplementation 'io.projectreactor:reactor-test:3.6.0'
+}
+
+test {
+    useJUnitPlatform()
+}
