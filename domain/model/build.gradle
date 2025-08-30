@@ -1,0 +1,16 @@
+// Simple dependencies for domain model
+dependencies {
+    // Reactor for reactive types
+    api 'io.projectreactor:reactor-core:3.6.0'
+    
+    // Jakarta validation
+    api 'jakarta.validation:jakarta.validation-api:3.0.2'
+    
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'io.projectreactor:reactor-test:3.6.0'
+}

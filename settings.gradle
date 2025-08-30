@@ -1,0 +1,29 @@
+/*
+ * Franquicias API - Clean Architecture
+ * Built with Spring WebFlux and Clean Architecture principles
+ */
+
+plugins {
+    // Apply the foojay-resolver plugin to allow automatic download of JDKs
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
+rootProject.name = 'franquicias-api'
+
+// Domain modules
+include ':model'
+include ':usecase'
+
+// Infrastructure modules
+include ':jpa-repository'
+include ':reactive-web'
+
+// Application module
+include ':app-service'
+
+// Module paths
+project(':model').projectDir = file('domain/model')
+project(':usecase').projectDir = file('domain/usecase')
+project(':jpa-repository').projectDir = file('infrastructure/driven-adapters/jpa-repository')
+project(':reactive-web').projectDir = file('infrastructure/entry-points/reactive-web')
+project(':app-service').projectDir = file('applications/app-service')
