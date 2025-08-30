@@ -1,5 +1,6 @@
 plugins {
-    id 'org.springframework.boot'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 dependencies {
@@ -8,17 +9,32 @@ dependencies {
     implementation project(':jpa-repository')
     implementation project(':reactive-web')
     
-    // Spring Boot
+    // Spring Boot Starters
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
-    
-    // Configuration processor
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    
-    // Actuator for health checks
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     
-    // Logging
-    implementation 'org.springframework.boot:spring-boot-starter-logging'
+    // R2DBC MySQL
+    implementation 'dev.miku:r2dbc-mysql:0.8.2.RELEASE'
+    implementation 'io.r2dbc:r2dbc-pool'
+    
+    // Flyway for schema management
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-mysql'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    
+    // OpenAPI Documentation
+    implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.2.0'
+    
+    // Development tools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:mysql'
+    testImplementation 'org.testcontainers:r2dbc'
 }

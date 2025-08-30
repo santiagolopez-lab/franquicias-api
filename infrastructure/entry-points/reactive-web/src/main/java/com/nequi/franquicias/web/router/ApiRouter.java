@@ -40,6 +40,19 @@ public class ApiRouter {
         // Franchise operations
         @RouterOperation(
             path = "/api/v1/franchises",
+            method = RequestMethod.GET,
+            operation = @Operation(
+                operationId = "getAllFranchises",
+                summary = "Get all franchises",
+                tags = {"Franchises"},
+                responses = {
+                    @ApiResponse(responseCode = "200", description = "Franchises retrieved successfully",
+                        content = @Content(schema = @Schema(implementation = com.nequi.franquicias.web.dto.FranchiseResponse.class)))
+                }
+            )
+        ),
+        @RouterOperation(
+            path = "/api/v1/franchises",
             method = RequestMethod.POST,
             operation = @Operation(
                 operationId = "createFranchise",
@@ -96,6 +109,7 @@ public class ApiRouter {
     public RouterFunction<ServerResponse> franchiseRoutes() {
         return route()
                 .path("/api/v1/franchises", builder -> builder
+                        .GET("", franchiseHandler::getAllFranchises)
                         .POST("", accept(MediaType.APPLICATION_JSON), franchiseHandler::createFranchise)
                         .PUT("/{franchiseId}/name", accept(MediaType.APPLICATION_JSON), franchiseHandler::updateFranchiseName)
                         .GET("/{franchiseId}/top-stock-products", franchiseHandler::getTopStockProductPerBranch)

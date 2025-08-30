@@ -1,6 +1,7 @@
 package com.nequi.franquicias.web.handlers;
 
 import com.nequi.franquicias.usecase.franchise.CreateFranchiseUseCase;
+import com.nequi.franquicias.usecase.franchise.GetAllFranchisesUseCase;
 import com.nequi.franquicias.usecase.franchise.GetTopStockProductPerBranchUseCase;
 import com.nequi.franquicias.usecase.franchise.UpdateFranchiseNameUseCase;
 import com.nequi.franquicias.web.dto.CreateFranchiseRequest;
@@ -25,6 +26,7 @@ import reactor.core.publisher.Mono;
 public class FranchiseHandler {
     
     private final CreateFranchiseUseCase createFranchiseUseCase;
+    private final GetAllFranchisesUseCase getAllFranchisesUseCase;
     private final UpdateFranchiseNameUseCase updateFranchiseNameUseCase;
     private final GetTopStockProductPerBranchUseCase getTopStockProductPerBranchUseCase;
     
@@ -46,6 +48,24 @@ public class FranchiseHandler {
                         .bodyValue(response))
                 .doOnSuccess(response -> log.info("Franchise created successfully"))
                 .doOnError(error -> log.error("Error creating franchise: {}", error.getMessage()));
+    }
+    
+    /**
+     * Get all franchises
+     * GET /api/v1/franchises
+     */
+    public Mono<ServerResponse> getAllFranchises(ServerRequest request) {
+        log.info("Getting all franchises");
+        
+        return getAllFranchisesUseCase.execute()
+                .map(FranchiseWebMapper::toResponse)
+                .collectList()
+                .flatMap(responseList -> ServerResponse
+                        .ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(responseList))
+                .doOnSuccess(response -> log.info("All franchises retrieved successfully"))
+                .doOnError(error -> log.error("Error getting all franchises: {}", error.getMessage()));
     }
     
     /**

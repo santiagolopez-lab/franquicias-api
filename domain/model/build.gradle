@@ -1,10 +1,10 @@
 // Simple dependencies for domain model
 dependencies {
     // Reactor for reactive types
-    api 'io.projectreactor:reactor-core:3.6.0'
+    implementation 'io.projectreactor:reactor-core:3.6.0'
     
     // Jakarta validation
-    api 'jakarta.validation:jakarta.validation-api:3.0.2'
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
     
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.30'
