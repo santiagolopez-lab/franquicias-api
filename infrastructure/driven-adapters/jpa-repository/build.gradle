@@ -1,15 +1,24 @@
 dependencies {
     implementation project(':model')
     
-    // Spring Data Reactive
-    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
-    implementation 'org.springframework:spring-context'
-    implementation 'io.projectreactor:reactor-core'
+    // Spring Data R2DBC
+    implementation 'org.springframework.data:spring-data-r2dbc:3.2.0'
+    implementation 'org.springframework:spring-context:6.1.0'
+    implementation 'io.projectreactor:reactor-core:3.6.0'
     
     // MySQL R2DBC driver
-    implementation 'io.asyncer:r2dbc-mysql:1.0.5'
-    implementation 'mysql:mysql-connector-java:8.2.0'
+    implementation 'dev.miku:r2dbc-mysql:0.8.2.RELEASE'
+    implementation 'mysql:mysql-connector-java:8.0.33'
     
     // Connection pooling
-    implementation 'io.r2dbc:r2dbc-pool'
+    implementation 'io.r2dbc:r2dbc-pool:1.0.1.RELEASE'
+    
+    // Database schema management
+    implementation 'org.flywaydb:flyway-core:9.22.3'
+    implementation 'org.flywaydb:flyway-mysql:9.22.3'
+    
+    // Testing
+    testImplementation 'io.projectreactor:reactor-test:3.6.0'
+    testImplementation 'org.testcontainers:mysql:1.19.0'
+    testImplementation 'org.testcontainers:r2dbc:1.19.0'
 }
