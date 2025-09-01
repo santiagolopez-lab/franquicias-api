@@ -1,8 +1,10 @@
 package com.nequi.franquicias.usecase.franchise;
 
+import com.nequi.franquicias.model.Branch;
 import com.nequi.franquicias.model.Franchise;
 import com.nequi.franquicias.model.gateways.BranchRepository;
 import com.nequi.franquicias.model.gateways.FranchiseRepository;
+import com.nequi.franquicias.model.gateways.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
@@ -20,6 +22,7 @@ public class GetAllFranchisesUseCase {
     
     private final FranchiseRepository franchiseRepository;
     private final BranchRepository branchRepository;
+    private final ProductRepository productRepository;
     
     /**
      * Retrieves all franchises from the repository with their associated branches
@@ -39,7 +42,9 @@ public class GetAllFranchisesUseCase {
     private Mono<Franchise> loadBranches(Franchise franchise) {
         log.info("Loading branches for franchise ID: {}", franchise.getId());
         return branchRepository.findByFranchiseId(franchise.getId())
-                .doOnNext(branch -> log.info("Found branch: {} for franchise: {}", branch.getName(), franchise.getId()))
+                .flatMap(this::loadProducts) // Load products for each branch
+                .doOnNext(branch -> log.info("Found branch: {} with {} products for franchise: {}", 
+                    branch.getName(), branch.getProducts().size(), franchise.getId()))
                 .collectList()
                 .doOnNext(branches -> log.info("Total branches found for franchise {}: {}", franchise.getId(), branches.size()))
                 .map(branches -> {
@@ -53,6 +58,31 @@ public class GetAllFranchisesUseCase {
                         .id(franchise.getId())
                         .name(franchise.getName())
                         .branches(new ArrayList<>())
+                        .build());
+    }
+    
+    /**
+     * Load products for a branch
+     * @param branch the branch without products
+     * @return branch with loaded products
+     */
+    private Mono<Branch> loadProducts(Branch branch) {
+        log.debug("Loading products for branch ID: {}", branch.getId());
+        return productRepository.findByBranchId(branch.getId())
+                .collectList()
+                .map(products -> {
+                    return Branch.builder()
+                            .id(branch.getId())
+                            .name(branch.getName())
+                            .franchiseId(branch.getFranchiseId())
+                            .products(products)
+                            .build();
+                })
+                .onErrorReturn(Branch.builder()
+                        .id(branch.getId())
+                        .name(branch.getName())
+                        .franchiseId(branch.getFranchiseId())
+                        .products(new ArrayList<>())
                         .build());
     }
 }
