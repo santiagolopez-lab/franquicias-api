@@ -1,0 +1,29 @@
+# =================================================================
+# DEVELOPMENT ENVIRONMENT CONFIGURATION
+# =================================================================
+
+spring:
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/franquicias_dev_db
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:password}
+  
+  flyway:
+    url: jdbc:mysql://localhost:3306/franquicias_dev_db?createDatabaseIfNotExist=true
+    user: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:password}
+
+# Enhanced logging for development
+logging:
+  level:
+    com.nequi.franquicias: DEBUG
+    org.springframework.r2dbc: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.netty: DEBUG
+    org.springframework.data.r2dbc: DEBUG
+
+# Development-specific settings
+server:
+  error:
+    include-stacktrace: always
+    include-message: always

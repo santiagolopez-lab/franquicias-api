@@ -17,6 +17,13 @@ dependencies {
     implementation 'org.flywaydb:flyway-core:9.22.3'
     implementation 'org.flywaydb:flyway-mysql:9.22.3'
     
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    
+    // SLF4J Logging
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    
     // Testing
     testImplementation 'io.projectreactor:reactor-test:3.6.0'
     testImplementation 'org.testcontainers:mysql:1.19.0'
