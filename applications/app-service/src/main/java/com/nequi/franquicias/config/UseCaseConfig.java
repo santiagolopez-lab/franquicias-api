@@ -33,8 +33,9 @@ public class UseCaseConfig {
     
     @Bean
     public GetAllFranchisesUseCase getAllFranchisesUseCase(
-            FranchiseRepository franchiseRepository) {
-        return new GetAllFranchisesUseCase(franchiseRepository);
+            FranchiseRepository franchiseRepository,
+            BranchRepository branchRepository) {
+        return new GetAllFranchisesUseCase(franchiseRepository, branchRepository);
     }
     
     @Bean
